@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otimizador de Rotas Inteligente</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="RouteOptimizer">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-route"></i> Otimizador de Rotas</h1>
+            <p>Sistema inteligente com OCR, busca por CEP e otimização automática</p>
+        </header>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="input-section">
+                    <h3><i class="fas fa-map-marker-alt"></i> Adicionar Endereços</h3>
+                    
+                    <!-- Busca por CEP -->
+                    <div class="input-group">
+                        <label for="cepInput">Buscar por CEP:</label>
+                        <div class="cep-container">
+                            <input type="text" id="cepInput" placeholder="00000-000" maxlength="9">
+                            <button id="searchCepBtn"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Entrada manual -->
+                    <div class="input-group">
+                        <label for="addressInput">Endereço manual:</label>
+                        <textarea id="addressInput" placeholder="Digite o endereço completo..."></textarea>
+                        <button id="addAddressBtn"><i class="fas fa-plus"></i> Adicionar</button>
+                    </div>
+
+                    <!-- OCR da Câmera -->
+                    <div class="input-group">
+                        <label>Capturar endereço com câmera:</label>
+                        <div class="camera-section">
+                            <video id="video" style="display: none;"></video>
+                            <canvas id="canvas" style="display: none;"></canvas>
+                            <button id="startCameraBtn"><i class="fas fa-camera"></i> Iniciar Câmera</button>
+                            <button id="captureBtn" style="display: none;"><i class="fas fa-capture"></i> Capturar</button>
+                            <div id="ocrResult"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="addresses-section">
+                    <h3><i class="fas fa-list"></i> Lista de Endereços</h3>
+                    <div class="route-controls">
+                        <button id="optimizeBtn"><i class="fas fa-magic"></i> Otimizar Rota</button>
+                        <button id="clearAllBtn"><i class="fas fa-trash"></i> Limpar Tudo</button>
+                        <button id="openMapsBtn" disabled><i class="fas fa-external-link-alt"></i> Abrir no Maps</button>
+                    </div>
+                    <ul id="addressesList"></ul>
+                </div>
+
+                <div class="route-info">
+                    <h3><i class="fas fa-info-circle"></i> Informações da Rota</h3>
+                    <div id="routeStats">
+                        <p>Total de pontos: <span id="totalPoints">0</span></p>
+                        <p>Distância estimada: <span id="totalDistance">-</span></p>
+                        <p>Tempo estimado: <span id="totalTime">-</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <div id="map"></div>
+                <div class="map-controls">
+                    <button id="centerMapBtn"><i class="fas fa-crosshairs"></i> Centralizar</button>
+                    <button id="fullscreenBtn"><i class="fas fa-expand"></i> Tela Cheia</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loadingModal" class="modal">
+        <div class="modal-content">
+            <div class="spinner"></div>
+            <p>Processando...</p>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
