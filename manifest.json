@@ -1,13 +1,11 @@
-
 {
-  "name": "Otimizador de Rotas Inteligente",
-  "short_name": "RouteOptimizer",
-  "description": "Sistema inteligente de otimização de rotas com OCR e busca por CEP",
-  "start_url": "/index.html",
+  "name": "Meu App",
+  "short_name": "App",
+  "description": "Descrição do meu app",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#667eea",
-  "theme_color": "#667eea",
-  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#007bff",
   "icons": [
     {
       "src": "favico.png",
@@ -19,8 +17,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "categories": ["navigation", "travel", "productivity"],
-  "scope": "/",
-  "id": "route-optimizer"
+  ]
 }
