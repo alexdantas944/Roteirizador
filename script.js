@@ -67,6 +67,18 @@ form.addEventListener("submit", (e) => {
   atualizarTabela();
 });
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(registration => {
+        console.log('Service Worker registrado com sucesso:', registration.scope);
+      })
+      .catch(err => {
+        console.log('Falha ao registrar Service Worker:', err);
+      });
+  });
+}
+
 // 🔹 Excluir entrega
 function excluirEntrega(index) {
   entregas.splice(index, 1); // remove da variável
