@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sistema de Registro de Entregas</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#007bff">
 </head>
 <body>
   <header>
@@ -12,7 +14,7 @@
       <img src="perfil.jpg" alt="Foto de Perfil">
       <div>
         <h2>Alex Dantas</h2>
-        <p>Ambiente: Entregas</p>
+        <p>Ambiente: Pague menos 51</p>
       </div>
     </div>
   </header>
@@ -53,5 +55,16 @@
   </main>
 
   <script src="script.js"></script>
+  if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(registration => {
+        console.log('Service Worker registrado com sucesso:', registration.scope);
+      })
+      .catch(err => {
+        console.log('Falha ao registrar Service Worker:', err);
+      });
+  });
+}
 </body>
 </html>
