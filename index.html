@@ -1,99 +1,64 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Otimizador de Rotas Inteligente</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#667eea">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="RouteOptimizer">
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Registro de Entregas</title>
+  <link rel="stylesheet" href="style.css">
+<script type="module">
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+  const supabaseUrl = "https://skuwkibkicoiufxnoltl.supabase.co";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNrdXdraWJraWNvaXVmeG5vbHRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU1NzUxNTksImV4cCI6MjA3MTE1MTE1OX0.F-trfc7Sz3BbsFJ5vFgPlBvGiWJcJoYQy-lhlaTv9wA";
+  window.supabase = createClient(supabaseUrl, supabaseKey);
+</script>
+<script src="script.js" type="module"></script>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1><i class="fas fa-route"></i> Otimizador de Rotas</h1>
-            <p>Sistema inteligente com OCR, busca por CEP e otimização automática</p>
-        </header>
-
-        <div class="main-content">
-            <div class="sidebar">
-                <div class="input-section">
-                    <h3><i class="fas fa-map-marker-alt"></i> Adicionar Endereços</h3>
-                    
-                    <!-- Busca por CEP -->
-                    <div class="input-group">
-                        <label for="cepInput">Buscar por CEP:</label>
-                        <div class="cep-container">
-                            <input type="text" id="cepInput" placeholder="00000-000" maxlength="9">
-                            <button id="searchCepBtn"><i class="fas fa-search"></i></button>
-                        </div>
-                    </div>
-
-                    <!-- Entrada manual -->
-                    <div class="input-group">
-                        <label for="addressInput">Endereço manual:</label>
-                        <textarea id="addressInput" placeholder="Digite o endereço completo..."></textarea>
-                        <button id="addAddressBtn"><i class="fas fa-plus"></i> Adicionar</button>
-                    </div>
-
-                    <!-- OCR da Câmera -->
-                    <div class="input-group">
-                        <label>Capturar endereço com câmera:</label>
-                        <div class="camera-section">
-                            <video id="video" style="display: none;"></video>
-                            <canvas id="canvas" style="display: none;"></canvas>
-                            <button id="startCameraBtn"><i class="fas fa-camera"></i> Iniciar Câmera</button>
-                            <button id="captureBtn" style="display: none;"><i class="fas fa-capture"></i> Capturar</button>
-                            <div id="ocrResult"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="addresses-section">
-                    <h3><i class="fas fa-list"></i> Lista de Endereços</h3>
-                    <div class="route-controls">
-                        <button id="optimizeBtn"><i class="fas fa-magic"></i> Otimizar Rota</button>
-                        <button id="clearAllBtn"><i class="fas fa-trash"></i> Limpar Tudo</button>
-                        <button id="openMapsBtn" disabled><i class="fas fa-external-link-alt"></i> Abrir no Maps</button>
-                    </div>
-                    <ul id="addressesList"></ul>
-                </div>
-
-                <div class="route-info">
-                    <h3><i class="fas fa-info-circle"></i> Informações da Rota</h3>
-                    <div id="routeStats">
-                        <p>Total de pontos: <span id="totalPoints">0</span></p>
-                        <p>Distância estimada: <span id="totalDistance">-</span></p>
-                        <p>Tempo estimado: <span id="totalTime">-</span></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="map-container">
-                <div id="map"></div>
-                <div class="map-controls">
-                    <button id="centerMapBtn"><i class="fas fa-crosshairs"></i> Centralizar</button>
-                    <button id="fullscreenBtn"><i class="fas fa-expand"></i> Tela Cheia</button>
-                </div>
-            </div>
-        </div>
+  <header>
+    <div class="profile">
+      <img src="perfil.jpg" alt="Foto de Perfil">
+      <div>
+        <h2>Alex Dantas</h2>
+        <p>Ambiente: Entregas</p>
+      </div>
     </div>
+  </header>
 
-    <div id="loadingModal" class="modal">
-        <div class="modal-content">
-            <div class="spinner"></div>
-            <p>Processando...</p>
-        </div>
-    </div>
+  <main>
+    <section class="form-section">
+      <h3>Registrar Entrega</h3>
+      <form id="delivery-form">
+        <label for="data">Data:</label>
+        <input type="date" id="data" name="data" required>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
-    <script src="script.js"></script>
+        <label for="quantidade">Quantidade:</label>
+        <input type="number" id="quantidade" name="quantidade" required>
+
+        <button type="submit">Registrar</button>
+      </form>
+    </section>
+
+    <section class="stats">
+      <h3>Resumo</h3>
+      <p>Total da Semana: <span id="total-semana">0</span></p>
+      <p>Total da Quinzena: <span id="total-quinzena">0</span></p>
+      <p>Bonificação: R$ <span id="bonus">0,00</span></p>
+    </section>
+
+    <section class="list">
+      <h3>Entregas Registradas</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Quantidade</th>
+          </tr>
+        </thead>
+        <tbody id="deliveries-table"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
